@@ -29,6 +29,16 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find({}, 'username_id');
+        res.json(users);
+    } catch (err) {
+        console.error('Error fetching users:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }    
+});
+
 app.post('/api/users', async (req, res) => {
     try {
         const { username } = req.body;
@@ -37,12 +47,12 @@ app.post('/api/users', async (req, res) => {
             return res.status(400).json({ error: 'Username is required' })
         }
 
-        const newUser = new User({ username });
-        await newUser.save();
+        const user = new User({ username });
+        await user.save();
 
         res.json({
-            _id:newUser._id,
-            username: newUser.username
+            _id:user._id,
+            username: user.username
         });
 
     } catch (err) {
