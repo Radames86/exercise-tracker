@@ -2,7 +2,7 @@
   "name": "exercise-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "echo \"node server.js",
     "dev": "nodemon server.js"
