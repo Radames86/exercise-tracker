@@ -31,11 +31,12 @@ app.get('/', (req, res) => {
 
 app.get('/api/users', async (req, res) => {
     try {
-        const users = await User.find({}, 'username_id');
-        res.json(users.map(user => ({
-            _id: user._id,
+        const users = await User.find({}).lean();
+        const formattedUsers = users.map(user => ({
+            _id: user._id.toString(),
             username: user.username
-        })));
+        }))
+        res.json(formattedUsers)
     } catch (err) {
         console.error('Error fetching users:', err.message);
         res.status(500).json({ error: 'Server error' });
